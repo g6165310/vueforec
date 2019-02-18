@@ -1,4 +1,4 @@
-# vueforec
+# OldCool
 
 ## Project setup
 ```

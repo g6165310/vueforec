@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/login">Go to Login</router-link>
+    
   </div>
 </template>
 
@@ -11,6 +11,12 @@ export default {
     return {
       msg: "TEST"
     };
+  },
+  methods: {
+
+  },
+  created(){
+    console.log(this.$route.query)
   }
 };
 </script>
@@ -29,6 +35,9 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #6642b9;
+}
+body {
+  background-color: rgb(186, 202, 41);
 }
 </style>
