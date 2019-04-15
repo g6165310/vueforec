@@ -9,7 +9,6 @@ import ProductInfo from './views/ProductInfo.vue'
 import Checkout from './views/Checkout.vue'
 import Orders from './components/Orders.vue'
 import Order from './views/Order.vue'
-import HelloWorld from './components/HelloWorld.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -70,11 +69,6 @@ export default new Router({
           meta: { requiresAuth: true },
         },
       ],
-    },
-    {
-      path: '/categories',
-      name: 'HelloWorld',
-      component: HelloWorld,
     },
   ]
 })

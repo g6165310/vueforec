@@ -129,5 +129,22 @@ export default {
     background: rgb(211, 32, 32);
   }
 }
+@media screen and(max-width: 960px){
+  .product-table{
+    display: none;
+  }
+  .mobile-table{
+    display: block;
+  }
+}
+@media screen and(max-width: 768px){
+  .content{
+    position: relative;
+    left: 0;
+    width: 100%;
+    padding: 25px;
+    overflow-x: auto;
+  }
+}
 
 </style>

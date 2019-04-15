@@ -1,6 +1,5 @@
 <template>
   <div class="product-page">
-    
     <Navbar/>
     <div class="banner">
       <div class="banner-msg">
@@ -8,9 +7,12 @@
       </div>
     </div>
     <div class="content">
-      <div class="side-nav"></div>
       <div class="product-list">
-        <div class="product-card" v-for="product in products" :key='product.id' v-if="product.category==category">
+        <div
+          class="product-card"
+          v-for="product in filteredProducts"
+          :key="product.id"
+        >
           <router-link :to="`/product/${product.id}`">
             <div class="product-card-top">
               <div class="product-img" :style="{backgroundImage:`url(${product.imageUrl})`}"></div>
@@ -21,7 +23,11 @@
               <p>{{ product.content}}</p>
               <div class="product-price">${{product.price}}</div>
               <div class="product-card-bottom">
-                <a @click.prevent.self="addToCart(product.id)" class="add-to-cart" v-if="product.is_enabled">Add To Cart</a>
+                <a
+                  @click.prevent.self="addToCart(product.id)"
+                  class="add-to-cart"
+                  v-if="product.is_enabled"
+                >Add To Cart</a>
                 <a class="add-to-cart disabled" v-else>Sold Out</a>
               </div>
             </div>
@@ -33,7 +39,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 
@@ -46,7 +52,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      category:this.$route.query.categories,
+      category: this.$route.query.categories
     };
   },
   methods: {
@@ -54,32 +60,40 @@ export default {
       const api = `${process.env.VUE_APP_API}/api/${
         process.env.VUE_APP_CUSTOMPATH
       }/products/all`;
-      this.$store.dispatch('getProducts',api)
+      this.$store.dispatch("getProducts", api);
     },
-    addToCart(product_id){
-      this.$store.dispatch('addToCart',{product_id,qty:1}).then(()=>{
+    addToCart(product_id) {
+      this.$store.dispatch("addToCart", { product_id, qty: 1 }).then(() => {
         this.$swal({
           toast: true,
-          position: 'top-end',
+          position: "top-end",
           showConfirmButton: false,
           timer: 3000,
-          type: 'success',
-          text: '成功加入購物車'
+          type: "success",
+          text: "成功加入購物車"
         });
-      })
+      });
     }
   },
-  computed:{
-    ...mapGetters(['products']),
+  computed: {
+    ...mapGetters(["products"]),
+    filteredProducts(){
+      let vm = this
+      return this.products.filter((item)=>{
+        if(item.category==vm.category){
+          return item
+        }
+      })
+    },
   },
-  watch:{
-    '$route.query': function(){
-      this.category = this.$route.query.categories
+  watch: {
+    "$route.query": function() {
+      this.category = this.$route.query.categories;
     }
   },
   created() {
     this.getAllProduct();
-    console.log(this.$route.query.categories)
+    console.log(this.$route.query.categories);
   }
 };
 </script>
@@ -87,7 +101,7 @@ export default {
 .content {
   margin-top: 100px;
   display: flex;
-  margin: 100px 80px;
+  margin: 100px 20px;
   font-family: "Homemade Apple", cursive;
 }
 .banner {
@@ -95,7 +109,7 @@ export default {
   background-position: center center;
   background-size: cover;
   width: 100%;
-  height: 500px;
+  height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,10 +123,10 @@ export default {
     align-items: center;
     padding: 50px;
     overflow: hidden;
-    &:before{
+    &:before {
       content: "";
       position: absolute;
-      background-color: rgba(11,60,93,0.7);
+      background-color: rgba(11, 60, 93, 0.7);
       top: 0px;
       left: 0px;
       right: 0px;
@@ -123,50 +137,46 @@ export default {
       font-size: 50px;
       text-transform: uppercase;
       font-family: "Homemade Apple", cursive;
-      color: #D9B310;
+      color: #d9b310;
       line-height: 50px;
       margin-bottom: 0;
       z-index: 2;
     }
   }
 }
-.side-nav{
-  flex: 2;
-}
 .product-list {
   display: flex;
+  max-width: 1024px;
   flex-wrap: wrap;
-  flex: 6;
   justify-content: flex-start;
+  padding: 10px;
+  margin: 0 auto;
+  flex: 1;
 }
 .product-card {
-  width: 300px;
+  width: 250px;
   box-sizing: border-box;
   box-shadow: 0 1px 2px #a7a3a3;
   margin-right: 15px;
   margin-bottom: 20px;
-  background: #0B3C5D;
+  background: #0b3c5d;
   overflow: hidden;
 }
-.product-card-top{
+.product-card-top {
   overflow: hidden;
-}
-.product-img{
-  transition: all .3s ease-in-out;
-  background-position: center;
-  background-size: cover;
-}
-.product-card:hover{
-  cursor: pointer;
-  .product-img{
-    transform: scale(1.3);
-  }
 }
 .product-img {
-  width: 100%;
-  height: 200px;
+  transition: all 0.3s ease-in-out;
+  background-position: center;
   background-size: cover;
-  background-position: center center;
+  width: auto;
+  height: 200px;
+}
+.product-card:hover {
+  cursor: pointer;
+  .product-img {
+    transform: scale(1.3);
+  }
 }
 .product-details {
   padding: 30px;
@@ -199,7 +209,7 @@ export default {
   font-weight: 600;
   text-align: right;
 }
-.product-card-bottom{
+.product-card-bottom {
   overflow: hidden;
   border-top: 1px solid #eee;
   padding-top: 20px;
@@ -215,16 +225,61 @@ export default {
     transition: 0.5s;
     text-decoration: none;
     &:hover {
-      color: #083C5D;
+      color: #083c5d;
       background-color: rgb(245, 163, 11);
     }
-    .disabled{
-      pointer-events: none
+    .disabled {
+      pointer-events: none;
     }
   }
 }
 
 section {
   flex: 1;
+}
+@media screen and (max-width: 768px) {
+  .product-list {
+    display: block;
+  }
+  .product-card {
+    width: 100%;
+    max-width: 500px;
+    margin: 12px auto;
+    a {
+    }
+  }
+  .product-card-top {
+    flex: 1;
+    padding: 10px;
+    .product-img {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+  .product-details {
+    flex: 1;
+  }
+  .banner {
+    .banner-msg {
+      padding: 30px;
+      height: 200px;
+      h2 {
+        font-size: 40px;
+        line-height: 40px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 568px) {
+  .banner {
+    .banner-msg {
+      
+      height: 150px;
+      h2 {
+        font-size: 24px;
+        line-height: 24px;
+      }
+    }
+  }
 }
 </style>

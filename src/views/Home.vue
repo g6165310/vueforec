@@ -1,8 +1,8 @@
 <template>
-  <div class="home">
+  <div>
     <header>
       <Navbar/>
-      <vue-typed-js :strings="['Welcome to Old Cool','The Old, The Cool',]" :showCursor="true" :typeSpeed="100" :backSpeed="100" :cursorChar="'_'" >
+      <vue-typed-js :strings="['Welcome to Old Cool','The Old, The Cool',]"   :typeSpeed="100" :backSpeed="100" :showCursor="false" >
         <h1 class="typing"></h1>
       </vue-typed-js>
     </header>
@@ -27,7 +27,7 @@
       </div>
       <div class="section-desc">
         <h3>camera</h3>
-        <p>Lorem ipsum dolor sit amete velit laboriosam quod perspiciatis soluta ab! Beatae fugit officia similique quos sunt labore corporis quaerat, unde nulla facere, saepe maxime assumenda, officiis repellat est deserunt perspiciatis ab nesciunt esse a accusantium dolores? Repudiandae sunt odit exercitationem obcaecati fuga dolorem neque architecto quis, assumenda cum, aliquam libero ratione, asperiores harum sequi quas maiores itaque quo nam nesciunt perferendis? Numquam perspiciatis magni fugiat! Mollitia labore voluptatem, corporis eum animi amet autem, qui repellat alias quo, atque sed explicabo dolores tempore soluta! Nulla necessitatibus dignissimos est mollitia iste deserunt minus incidunt doloremque rerum. Ullam, nesciunt ipsa! Aliquid quaerat placeat aliquam autem vitae molestiae sint eaque expedita? Sapiente eius aliquam quisquam ducimus facere nihil necessitatibus impedit dolores, sit officia distinctio placeat assumenda voluptate similique tempora deserunt a in libero harum cumque saepe qui. Harum assumenda repudiandae esse sapiente iste possimus maiores, quisquam perferendis provident? Nisi, quisquam sequi ducimus atque porro, totam accusantium illo voluptas consequuntur rerum eligendi necessitatibus pariatur obcaecati possimus magni, doloremque ratione! Quisquam est dicta laudantium itaque, aspernatur officia qui neque, magni, iure pariatur ipsa vero adipisci quis nulla. Velit aliquid cum ipsum vitae veritatis quasi.</p>
+        <p>Lorem ipsum dolor sit amete velit laboriosam quod perspiciatis soluta ab! Beatae fugit officia similique quos sunt labore corporis quaerat, unde nulla facere, saepe maxime assumenda, officiis repellat est deserunt perspiciatis ab nesciunt esse a accusantium dolores?</p>
       </div>
     </section>
     <Footer/>
@@ -44,6 +44,11 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  data(){
+    return{
+      isRwd:false
+    }
   }
 };
 </script>
@@ -56,7 +61,7 @@ header {
   margin: 0 auto;
   font-family: "Homemade Apple", cursive;
   position: relative;
-  
+  width: 100%;
 }
 .typed-element {
   position: absolute;
@@ -66,11 +71,16 @@ header {
   color: white;
   justify-content: center;
   align-content: center;
+  min-width: 300px;
   h1 {
     font-family: "Homemade Apple", cursive;
-    font-size: 50px;
+    font-size: 2rem;
+  }
+  span .typed-cursor{
+    font-size: 100px;
   }
 }
+
 section{
   display: flex;
   min-height: 350px;
@@ -126,5 +136,26 @@ section{
   height: 100%;
   border-bottom: 2px solid #D9B310;
   border-left: 2px solid #D9B310;
+}
+@media screen and (max-width: 768px){
+  header{
+    height: 50vh;
+  }
+  section{
+    display: block;
+    padding: 20px 30px 0px 20px;
+  }
+  .section-img{
+    height: 300px;
+    max-width: 800px;
+  }
+  .section-desc{
+    margin: 24px 0;
+  }
+  .typed-element{
+    h1{
+      font-size: 20px;
+    }
+  }
 }
 </style>

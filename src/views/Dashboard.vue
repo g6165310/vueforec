@@ -16,9 +16,9 @@ export default {
 <style scoped lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700,900&subset=chinese-traditional');
 .ownContainer{
-  background-color: #fff;
   position: relative;
   font-family: 'Noto Sans TC', sans-serif;
+  position: relative;
 }
 
 </style>

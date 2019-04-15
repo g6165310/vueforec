@@ -24,6 +24,7 @@ export default {
   box-sizing: border-box;
   height: 100%;
   width: 20%;
+  max-width: 256px;
   background-color: #373737;
   padding: 50px;
   li {
@@ -75,5 +76,39 @@ export default {
       transform: scaleX(1) ;
     }
   }
+}
+@media screen and(max-width:960px){
+  .sidebar{
+    li{
+      a{
+        font-size: 18px;
+      }
+    }
+  }
+}
+@media screen and(max-width:768px){
+  .sidebar {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 50px;
+  padding: 0;
+  ul{
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+  li {
+    display: flex;
+    flex: 1;
+    margin-bottom: 0;
+    padding: 10px;
+  }
+  li a {
+    font-size: 30px;
+  }
+}
 }
 </style>

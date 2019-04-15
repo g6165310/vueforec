@@ -1,36 +1,47 @@
 <template>
-    <div>
+  <div>
     <Navbar/>
     <div class="container">
       <h4>Order List</h4>
-      <table class='cart-table' v-if="cart.carts.length!=0">
-        <thead>
-          <tr>
-            <th width='30%'>PRODUCT NAME</th>
-            <th>Unit</th>
-            <th>price</th>
-            <th width="10%"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in cart.carts" :key="item.id">
-            <td>{{item.product.title}}</td>
-            <td>{{ item.qty }}</td>
-            <td style="">$ {{item.final_total}}</td>
-            <td class="del-icon"><i  class="material-icons" @click="removeItem(item.id)">delete_outline</i></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="2" class="total_price">total</td>
-            <td colspan="1" style="" class="total_price">$ {{cart.final_total}}</td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </table>
-      <vue-typed-js :strings="['To buy, or not to buy.That\'s a question']" :showCursor="true" :typeSpeed="100" :backSpeed="100" :cursorChar="'_'" v-else>
-        <h1 class="typing"></h1>
-      </vue-typed-js>
+      <div class="tableContainer">
+        <table class="cart-table" v-if="cart.carts.length!=0">
+          <thead>
+            <tr>
+              <th width="50%">PRODUCT NAME</th>
+              <th>Unit</th>
+              <th>price</th>
+              <th width="10%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in cart.carts" :key="item.id">
+              <td>{{item.product.title}}</td>
+              <td>{{ item.qty }}</td>
+              <td style>$ {{item.final_total}}</td>
+              <td class="del-icon">
+                <i class="material-icons" @click="removeItem(item.id)">delete_outline</i>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="total_price">total</td>
+              <td colspan="1" style class="total_price">$ {{cart.final_total}}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+        <vue-typed-js
+          :strings="['To buy, or not to buy.That\'s a question']"
+          :showCursor="true"
+          :typeSpeed="100"
+          :backSpeed="100"
+          :cursorChar="'_'"
+          v-else
+        >
+          <h1 class="typing"></h1>
+        </vue-typed-js>
+      </div>
       <h4>Checkout</h4>
       <form class="checkout-form" @submit.prevent="createOrder">
         <div>
@@ -42,7 +53,14 @@
           <label>Email</label>
         </div>
         <div>
-          <input type="tel" pattern="[09]{2}[0-9]{8}" name="tel" id="usertel" required v-model="form.user.tel">
+          <input
+            type="tel"
+            pattern="[09]{2}[0-9]{8}"
+            name="tel"
+            id="usertel"
+            required
+            v-model="form.user.tel"
+          >
           <label for="usertel">phone</label>
           <small>(ex:09********)</small>
         </div>
@@ -51,12 +69,11 @@
           <label for="useraddress">Address</label>
         </div>
         <div>
-          <textarea name="" id="usermessage" cols="30" rows="10" v-model="form.message">
-          </textarea>
+          <textarea name id="usermessage" cols="30" rows="10" v-model="form.message"></textarea>
           <label for="usermessage">Message</label>
         </div>
         <div class="comfirm-btn">
-          <button >Comfirm</button>
+          <button>Comfirm</button>
         </div>
       </form>
     </div>
@@ -99,11 +116,11 @@ export default {
           setTimeout(() => {
             vm.$router.push(`/order/${response.data.orderId}`);
           }, 2000);
-        }else{
+        } else {
           this.$swal({
-          type: 'error',
-          text: response.data.message
-        });
+            type: "error",
+            text: response.data.message
+          });
         }
       });
     },
@@ -129,14 +146,18 @@ h4 {
   text-align: center;
   margin: 24px;
 }
-small{
+small {
   display: inline-block;
   margin-top: 8px;
 }
+.tableContainer {
+  overflow-x: auto;
+  margin-bottom: 72px;
+}
 .cart-table {
   width: 100%;
+  min-width: 800px;
   background-color: #0b3c5d;
-  margin-bottom: 72px;
   border: 2px solid #328cc1;
   td,
   th {
@@ -182,7 +203,7 @@ small{
   }
   textarea {
     height: 160px;
-    padding: 10px 0;
+    margin: 10px 0;
   }
   div {
     position: relative;
@@ -204,8 +225,7 @@ small{
   input:focus ~ label,
   textarea:focus ~ label,
   input:valid ~ label,
-  textarea:valid ~ label,
-  {
+  textarea:valid ~ label {
     top: -20px;
     font-weight: bold;
     font-size: 12px;
@@ -257,22 +277,16 @@ small{
     }
   }
 }
-.typing{
+.typing {
   display: inline-block;
   position: relative;
   padding: 50px 0;
   font-size: 36px;
-  // &::before{
-  //   content: '“ ';
-  //   position: absolute;
-  //   top: 30px;
-  //   left: 0;
-  // }
-  // &::after{
-  //   content: ' ”';
-  //   position: absolute;
-  //   top: 30px;
-  //   right:0;
-  // }
+}
+
+@media screen and (max-width: 568px) {
+  h4 {
+    font-size: 36px;
+  }
 }
 </style>

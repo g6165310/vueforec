@@ -64,7 +64,11 @@ table {
 body{
   background-color: #1D2731;
 }
-</style>
-<style lang="scss" scoped>
+#app{
+	max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+	font-family: "Homemade Apple", cursive;
+}
 </style>
 
