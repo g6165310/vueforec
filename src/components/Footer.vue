@@ -12,16 +12,14 @@
 export default {
   name: "Footer",
   data() {
-    return {
-
-    };
-  },
-}
+    return {};
+  }
+};
 </script>
 <style lang="scss" scoped>
-footer{
+footer {
   margin-top: 50px;
-  background-color: #083C5D;
+  background-color: #083c5d;
 }
 .logo {
   box-sizing: border-box;
@@ -35,9 +33,9 @@ footer{
     font-size: 2.5rem;
   }
 }
-.copyright{
+.copyright {
   text-align: center;
   color: #fbb72c;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 </style>

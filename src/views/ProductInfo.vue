@@ -1,12 +1,11 @@
 <template>
   <div>
-    <Navbar/>
     <div class="item-top-details">
       <div class="item-category">
-        <span>{{product.category}}</span>
+        <span>{{product.title}}</span>
       </div>
       <div class="item-img">
-        <img v-bind:src="product.imageUrl" alt>
+        <img v-bind:src="product.imageUrl" alt />
       </div>
     </div>
     <div class="item-details">
@@ -24,20 +23,19 @@
         <select name="num" id class="item-select-num" v-model="count" v-else>
           <option value="0" selected disabled>Sold Out</option>
         </select>
-        <a class="addCart-btn" @click="addToCart(product.id,count)">ADD TO CART</a>
+        <a class="addCart-btn" @click="addToCart(product.id,count)">加入購物車</a>
       </div>
       <div class="item-desc">
         <div class="item-intro">
-          <h3>Product Description</h3>
-          <p>{{product.description}}</p>
+          <h3>產品說明</h3>
+          <p>{{product.content}}</p>
         </div>
         <div class="item-content">
-          <h3>Product Content</h3>
-          <p>{{product.content}}</p>
+          <h3>產品規格</h3>
+          <p v-html="description"></p>
         </div>
       </div>
     </div>
-    <Footer/>
   </div>
 </template>
 <script>
@@ -55,16 +53,21 @@ export default {
       count: 0
     };
   },
+  computed: {
+    description() {
+      if (this.product.description) {
+        return this.product.description.replace(/\n/g, "<br/>");
+      }
+    }
+  },
   methods: {
     getProduct() {
       const vm = this;
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_CUSTOMPATH
-      }/product/${vm.$route.params.productId}`;
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${vm.$route.params.productId}`;
       vm.$http.get(api).then(response => {
         if (response.data.success) {
           vm.product = response.data.product;
-          console.log(vm.product);
+        } else {
         }
       });
     },
@@ -73,14 +76,14 @@ export default {
     },
     addToCart(product_id, qty) {
       if (qty < 1) {
-          this.$swal({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            type: "warning",
-            text: "請選擇數量"
-          });
+        this.$swal({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          type: "warning",
+          text: "請選擇數量"
+        });
         return;
       }
       this.$store.dispatch("addToCart", { product_id, qty }).then(() => {
@@ -116,6 +119,7 @@ export default {
     writing-mode: vertical-lr;
     color: #d9b310;
     font-size: 50px;
+
     position: relative;
     width: 50px;
     &:before {
@@ -137,7 +141,7 @@ export default {
   }
 }
 .item-img {
-  flex:2;
+  flex: 2;
   img {
     width: 100%;
     height: auto;
@@ -195,7 +199,7 @@ export default {
     cursor: pointer;
     &:hover {
       background-color: #d9b310;
-      color: #fff;
+      color: #1d2731;
       transition: all 0.3s;
     }
   }
@@ -208,6 +212,7 @@ export default {
   outline: none;
   font-size: 16px;
   letter-spacing: 5px;
+  color: #1d2731;
   option:not(:checked) :hover {
     background-color: #eee;
   }
@@ -228,6 +233,9 @@ export default {
   .item-content {
     height: 50%;
   }
+}
+option {
+  color: #1d2731;
 }
 @media screen and (max-width: 960px) {
   .item-img {
@@ -254,14 +262,15 @@ export default {
     height: 100%;
   }
 }
-@media screen and (max-width: 768px){
-  .item-top-details{
+@media screen and (max-width: 768px) {
+  .item-top-details {
     display: block;
   }
-  .item-category{
+  .item-category {
     margin-bottom: 150px;
   }
-  .item-info,.item-desc{
+  .item-info,
+  .item-desc {
     padding: 50px 20px;
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="ownContainer">
     <form class="form" @submit.prevent="signin">
-      <h2>Login</h2>
+      <h2>Old Cool</h2>
       <div class="input-box">
         <i class="fa fa-user"></i>
         <input type="text" name placeholder="Username" required v-model="user.username">
@@ -11,7 +11,7 @@
         <input type="password" name placeholder="Password" required v-model="user.password">
       </div>
       <div class="input-box">
-        <input type="submit" name value="Login">
+        <input type="submit" name value="登入">
       </div>
     </form>
   </div>
@@ -56,6 +56,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
 .ownContainer {
   background-image: url(https://images.unsplash.com/photo-1505682634904-d7c8d95cdc50?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80);
   background-repeat: no-repeat;
@@ -90,7 +91,9 @@ export default {
     color: #d9b310;
     margin: 0 0 40px;
     padding: 0;
+    font-family: "Permanent Marker", cursive;
     font-size: 48px;
+    font-weight: 900;
     text-align: center;
   }
   .input-box {

@@ -1,18 +1,19 @@
 <template>
   <div class="product-page">
-    <Navbar/>
     <div class="banner">
       <div class="banner-msg">
         <h2>{{category}}</h2>
       </div>
     </div>
     <div class="content">
-      <div class="product-list">
+      <div class="product-list" v-if="filteredProducts.length!=0">
         <div
           class="product-card"
           v-for="product in filteredProducts"
           :key="product.id"
+          :class="{disable:!product.is_enabled}"
         >
+          <div class="mask" v-if="!product.is_enabled"></div>
           <router-link :to="`/product/${product.id}`">
             <div class="product-card-top">
               <div class="product-img" :style="{backgroundImage:`url(${product.imageUrl})`}"></div>
@@ -20,22 +21,24 @@
             <div class="product-details">
               <span class="product-category">{{product.category}}</span>
               <h4>{{ product.title}}</h4>
-              <p>{{ product.content}}</p>
               <div class="product-price">${{product.price}}</div>
               <div class="product-card-bottom">
                 <a
                   @click.prevent.self="addToCart(product.id)"
                   class="add-to-cart"
                   v-if="product.is_enabled"
-                >Add To Cart</a>
+                >加入購物車</a>
                 <a class="add-to-cart disabled" v-else>Sold Out</a>
               </div>
             </div>
           </router-link>
         </div>
       </div>
+      <div class="no-product" v-else>
+        <i class="fas fa-pray"></i>
+        <p>海外尋覓中 敬請等待</p>
+      </div>
     </div>
-    <Footer/>
   </div>
 </template>
 <script>
@@ -56,12 +59,6 @@ export default {
     };
   },
   methods: {
-    getAllProduct() {
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_CUSTOMPATH
-      }/products/all`;
-      this.$store.dispatch("getProducts", api);
-    },
     addToCart(product_id) {
       this.$store.dispatch("addToCart", { product_id, qty: 1 }).then(() => {
         this.$swal({
@@ -77,32 +74,27 @@ export default {
   },
   computed: {
     ...mapGetters(["products"]),
-    filteredProducts(){
-      let vm = this
-      return this.products.filter((item)=>{
-        if(item.category==vm.category){
-          return item
+    filteredProducts() {
+      let vm = this;
+      return this.products.filter(item => {
+        if (item.category == vm.category) {
+          return item;
         }
-      })
-    },
+      });
+    }
   },
   watch: {
     "$route.query": function() {
       this.category = this.$route.query.categories;
     }
   },
-  created() {
-    this.getAllProduct();
-    console.log(this.$route.query.categories);
-  }
+  created() {}
 };
 </script>
 <style lang="scss" scoped>
 .content {
-  margin-top: 100px;
   display: flex;
   margin: 100px 20px;
-  font-family: "Homemade Apple", cursive;
 }
 .banner {
   background-image: url(https://images.pexels.com/photos/33085/knowledge-book-library-glasses.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
@@ -117,30 +109,38 @@ export default {
   position: relative;
   .banner-msg {
     position: relative;
-    max-width: 600px;
-    height: 250px;
+    width: 50%;
+    height: 25%;
     display: flex;
     align-items: center;
-    padding: 50px;
-    overflow: hidden;
-    &:before {
-      content: "";
-      position: absolute;
-      background-color: rgba(11, 60, 93, 0.7);
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
-    }
+    justify-content: center;
     h2 {
       position: relative;
       font-size: 50px;
       text-transform: uppercase;
-      font-family: "Homemade Apple", cursive;
       color: #d9b310;
       line-height: 50px;
       margin-bottom: 0;
+      background-color: rgba(11, 60, 93, 1);
       z-index: 2;
+      width: 100%;
+      text-align: center;
+      padding: 50px 100px;
+      &::before,
+      &::after {
+        position: absolute;
+        content: "";
+        border-top: 4px solid #d9b310;
+        width: 80%;
+      }
+      &::before {
+        top: 10px;
+        left: 10%;
+      }
+      &::after {
+        bottom: 10px;
+        right: 10%;
+      }
     }
   }
 }
@@ -154,13 +154,28 @@ export default {
   flex: 1;
 }
 .product-card {
+  position: relative;
   width: 250px;
-  box-sizing: border-box;
   box-shadow: 0 1px 2px #a7a3a3;
   margin-right: 15px;
   margin-bottom: 20px;
   background: #0b3c5d;
   overflow: hidden;
+  a {
+    text-decoration: none;
+  }
+  .disable {
+    pointer-events: none;
+  }
+  &.disable:hover {
+    cursor: default;
+  }
+  &:hover {
+    cursor: pointer;
+    .product-img {
+      transform: scale(1.3);
+    }
+  }
 }
 .product-card-top {
   overflow: hidden;
@@ -172,12 +187,6 @@ export default {
   width: auto;
   height: 200px;
 }
-.product-card:hover {
-  cursor: pointer;
-  .product-img {
-    transform: scale(1.3);
-  }
-}
 .product-details {
   padding: 30px;
   h4 {
@@ -187,12 +196,6 @@ export default {
     text-transform: uppercase;
     color: #fff;
     transition: 0.3s;
-  }
-  p {
-    font-size: 15px;
-    line-height: 22px;
-    margin-bottom: 18px;
-    color: #999;
   }
 }
 .product-category {
@@ -237,6 +240,42 @@ export default {
 section {
   flex: 1;
 }
+
+.no-product {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: 48px;
+    margin-right: 24px;
+  }
+  p {
+    font-size: 48px;
+    line-height: 50px;
+  }
+}
+.mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(8, 60, 93, 0.6);
+  position: absolute;
+  z-index: 100;
+  &:before {
+    position: absolute;
+    content: "SOLD OUT";
+    font-size: 24px;
+    font-weight: 900;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    padding: 24px 0px;
+    border-top: 2px solid #fbb72c;
+    border-bottom: 2px solid #fbb72c;
+  }
+}
 @media screen and (max-width: 768px) {
   .product-list {
     display: block;
@@ -262,10 +301,11 @@ section {
   .banner {
     .banner-msg {
       padding: 30px;
-      height: 200px;
+      width: 80%;
       h2 {
         font-size: 40px;
         line-height: 40px;
+        padding: 50px 50px;
       }
     }
   }
@@ -273,8 +313,7 @@ section {
 @media screen and (max-width: 568px) {
   .banner {
     .banner-msg {
-      
-      height: 150px;
+      width: 80%;
       h2 {
         font-size: 24px;
         line-height: 24px;

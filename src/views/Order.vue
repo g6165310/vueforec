@@ -1,15 +1,14 @@
 <template>
   <div>
-    <Navbar/>
     <div class="container">
-      <h4>Comfirm</h4>
-      <h5>Cart Info</h5>
+      <h4>購買完成</h4>
+      <h5>商品明細</h5>
       <table class="custom-table">
         <thead>
           <tr>
-            <th width="30%">PRODUCT NAME</th>
-            <th>Unit</th>
-            <th>price</th>
+            <th width="30%">名稱</th>
+            <th>單位</th>
+            <th>價格</th>
           </tr>
         </thead>
         <tbody>
@@ -26,29 +25,28 @@
           </tr>
         </tfoot>
       </table>
-      <h5>Order Info</h5>
+      <h5>訂購明細</h5>
       <table class="custom-table">
         <tbody>
           <tr>
-            <td>Email</td>
+            <td>信箱</td>
             <td>{{order.user.email}}</td>
           </tr>
           <tr>
-            <td>Name</td>
+            <td>姓名</td>
             <td>{{order.user.name}}</td>
           </tr>
           <tr>
-            <td>phone</td>
+            <td>電話</td>
             <td>{{order.user.tel}}</td>
           </tr>
           <tr>
-            <td>Address</td>
+            <td>地址</td>
             <td>{{order.user.address }}</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <Footer/>
   </div>
 </template>
 <script>
@@ -117,11 +115,11 @@ h5 {
   width: 100%;
   background-color: #0b3c5d;
   margin-bottom: 72px;
-  border: 2px solid #328cc1;
+  border: 2px solid #d9b310;
   td,
   th {
     padding: 15px;
-    border-top: 1px solid #328cc1;
+    border-top: 1px solid #d9b310;
     font-size: 20px;
   }
   th {

@@ -1,74 +1,179 @@
 <template>
   <div id="app">
-		<loading :active.sync="isLoading"></loading>
-    <router-view/>
-		<notifications group='auth' position="bottom right"/>
+    <loading :active.sync="isLoading"></loading>
+    <router-view />
+    <notifications group="auth" position="bottom right" />
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 export default {
-	name: "App",
-	computed:{
-		...mapGetters(['isLoading'])
-	},
-  created() {}
+  name: "App",
+  computed: {
+    ...mapGetters(["isLoading"])
+  },
+  methods: {
+    ...mapActions(["getCart", "getProducts"])
+  },
+  created() {
+    console.log("APP created");
+    this.getCart();
+    const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
+    this.getProducts(api);
+  }
 };
 </script>
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css?family=Homemade+Apple');
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700,900&display=swap&subset=chinese-traditional");
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
-body{
-  background-color: #1D2731;
+body {
+  background-color: #1d2731;
 }
-#app{
-	max-width: 1280px;
+#app {
+  max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-	font-family: "Homemade Apple", cursive;
+  font-family: "Noto Sans TC", sans-serif;
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  color: #d9b310;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #0b3c5d;
+}
+::-webkit-scrollbar-thumb {
+  width: 5px;
+  height: 5px;
+  background-color: #d9b310;
+  border-radius: 10px;
 }
 </style>
 

@@ -10,7 +10,7 @@
 <script>
 import $ from "jquery";
 export default {
-  data() {
+  data() { 
     return {
     };
   },
