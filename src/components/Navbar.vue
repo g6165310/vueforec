@@ -157,7 +157,7 @@ nav {
   height: 60px;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 500;
   align-items: center;
   transition: all 0.5s;
   max-width: 1280px;

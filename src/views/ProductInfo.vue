@@ -64,10 +64,11 @@ export default {
     getProduct() {
       const vm = this;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${vm.$route.params.productId}`;
+      vm.$store.dispatch("updateLoading", true);
       vm.$http.get(api).then(response => {
         if (response.data.success) {
           vm.product = response.data.product;
-        } else {
+          vm.$store.dispatch("updateLoading", false);
         }
       });
     },
@@ -115,13 +116,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   span {
     writing-mode: vertical-lr;
     color: #d9b310;
     font-size: 50px;
-
     position: relative;
-    width: 50px;
+    height: max-content;
     &:before {
       content: "";
       position: absolute;
@@ -144,7 +145,7 @@ export default {
   flex: 2;
   img {
     width: 100%;
-    height: auto;
+    object-fit: none;
   }
 }
 .item-details {

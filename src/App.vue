@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <loading :active.sync="isLoading"></loading>
+    <loading :active.sync="isLoading" color="#d9b310" opacity="1" background-color="#1d2731"></loading>
     <router-view />
     <notifications group="auth" position="bottom right" />
   </div>
